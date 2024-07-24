@@ -31,6 +31,16 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-websocket")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
+
+	implementation("org.springframework.boot:spring-boot-starter-freemarker")
+	implementation("org.springframework.boot:spring-boot-devtools")
+	implementation("org.webjars.bower:bootstrap:4.3.1")
+	implementation("org.webjars.bower:vue:2.5.16")
+	implementation("org.webjars.bower:axios:0.17.1")
+	implementation("org.webjars:sockjs-client:1.1.2")
+	implementation("org.webjars:stomp-websocket:2.3.3-1")
+	implementation("com.google.code.gson:gson:2.8.6")
+
 	compileOnly("org.projectlombok:lombok")
 	annotationProcessor("org.projectlombok:lombok")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
