@@ -1,25 +1,22 @@
 package com.jackpot.chatting.controller
 
-import com.jackpot.chatting.dto.ChatRoom
-import com.jackpot.chatting.service.ChatService
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
+import com.jackpot.chatting.dto.ChatMessage
+import org.springframework.messaging.handler.annotation.MessageMapping
+import org.springframework.messaging.simp.SimpMessageSendingOperations
+import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
 
-@RestController
+@Controller
 @RequestMapping("/chat")
 class ChatController(
-    private val chatService: ChatService,
+    private val simpMessageSendingOperations: SimpMessageSendingOperations
 ) {
-    @GetMapping
-    fun findAllRoom(): List<ChatRoom> {
-        return chatService.findAllRoom()
-    }
 
-    @PostMapping
-    fun createRoom(@RequestParam name: String): ChatRoom {
-        return chatService.createRoom(name)
+    @MessageMapping("/chat/message")
+    fun message(chatMessage: ChatMessage) {
+        if (ChatMessage.MessageType.ENTER.equals(chatMessage.type)) {
+            chatMessage.message = chatMessage.sender + "님이 입장하셨습니다."
+        }
+        simpMessageSendingOperations.convertAndSend("/sub/chat/room/" + chatMessage.roomId, chatMessage)
     }
 }
